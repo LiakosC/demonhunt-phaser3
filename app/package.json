@@ -7,12 +7,13 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build-dev": "webpack --mode development ./src/index.js --output ./dist/app.js",
     "build-prod": "webpack --mode production ./src/index.js --output ./dist/app.js",
-    "devserver": "webpack-dev-server --mode development"
+    "devserver": "webpack-dev-server --mode development ./src/index.js --output ./dist/app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "jquery": "^3.4.1",
     "phaser": "^3.17.0"
   },
   "devDependencies": {

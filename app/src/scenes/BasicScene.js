@@ -1,4 +1,6 @@
 
+const AssetsManager = require('../AssetsManager');
+
 /**
  * @property {Phaser.Game} phgame
  * @property {Object} phscene
@@ -13,6 +15,8 @@ module.exports = class {
         this.phscene = null;
         this._phsceneName = ''; // name of phaser scene like boot | cinematic | menu | game | victory
         this.keys = {};
+        this.assets = new AssetsManager();
+        console.log('assets', this.assets);
     }
 
     Start() {

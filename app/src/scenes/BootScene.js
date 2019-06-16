@@ -36,10 +36,10 @@ module.exports = class extends require('./BasicScene') {
                 ///* -------------------------------------- */
                 //
                 ////boot.memory.createOptions();
-                //window.addEventListener("mousemove", () => {
-                //    this.phgame.canvas.parentNode.style.cursor = "default";
-                //    this.phgame.canvas.parentNode.style.cursor = "url('include/images/cursor.png'), auto";
-                //});
+                window.addEventListener("mousemove", () => {
+                    this.phgame.canvas.parentNode.style.cursor = 'url(' + this.assets.graphics_cursor_default() + '), auto';
+                    //this.phgame.canvas.parentNode.style.cursor = 'url(' + this.assets.graphics_cursor_pointer() + '), auto';
+                });
             },
             create: () => {
                 //console.log('boot create');

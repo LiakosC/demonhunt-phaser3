@@ -35,7 +35,9 @@ let scene_menu = new MenuScene(phgame);
 let scene_game = new GameScene(phgame);
 let scene_victory = new VictoryScene(phgame);
 
-setTimeout(() => {
-    scene_boot.Start();
-    //phgame.scene.start('boot');
-}, 1000);
+//setTimeout(() => {
+//    scene_boot.Start();
+//    //phgame.scene.start('boot');
+//}, 1000);
+
+scene_boot.Start();

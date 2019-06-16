@@ -1,6 +1,7 @@
-const $ = require('jquery');
+global.$ = require('jquery');
 const Phaser = require('phaser');
 const FlexibleWindow = require('./FlexibleWindow');
+const ConfigManager = require('./ConfigManager');
 
 const BasicScene = require('./scenes/BasicScene.js');
 const BootScene = require('./scenes/BootScene.js');
@@ -10,7 +11,9 @@ const MenuScene = require('./scenes/MenuScene.js');
 const GameScene = require('./scenes/GameScene.js');
 const VictoryScene = require('./scenes/VictoryScene.js');
 
-window.oncontextmenu = function() {return false;};
+global.config = new ConfigManager();
+
+//window.oncontextmenu = function() {return false;};
 window.win = new FlexibleWindow('window', 1280, 900);
 $(win.element).addClass('bg-dark');
 win.MaxStretch();
@@ -27,17 +30,13 @@ let phgame = new Phaser.Game({
     height: 900,
 });
 
-// scenes are the controllers
-let scene_boot = new BootScene(phgame);
-let scene_loading = new LoadingScene(phgame);
-let scene_cinematic = new CinematicScene(phgame);
-let scene_menu = new MenuScene(phgame);
-let scene_game = new GameScene(phgame);
-let scene_victory = new VictoryScene(phgame);
-
-//setTimeout(() => {
-//    scene_boot.Start();
-//    //phgame.scene.start('boot');
-//}, 1000);
+// scenes are the controllers. these are the only global variables
+// all inherit from BasicScene. put common properties inside BasicScene
+global.scene_boot = new BootScene(phgame);
+global.scene_loading = new LoadingScene(phgame);
+global.scene_cinematic = new CinematicScene(phgame);
+global.scene_menu = new MenuScene(phgame);
+global.scene_game = new GameScene(phgame);
+global.scene_victory = new VictoryScene(phgame);
 
 scene_boot.Start();

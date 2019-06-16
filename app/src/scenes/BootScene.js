@@ -9,50 +9,34 @@ module.exports = class extends require('./BasicScene') {
     constructor(phaserGame) {
         super(phaserGame);
         this._phsceneName = 'boot';
-        this.phscene = {
-            init: () => {
-                ///* basic template working on electron too */
-                //window.oncontextmenu = function() {return false;};
-                //window.addEventListener("keydown", function(e) {
-                //    if (e.key == "F10") {
-                //        win.fullscreen();
-                //    }
-                //});
-                //window.addEventListener("resize", function(e) {
-                //    win.setScale(win.getWindowScale());
-                //});
-                //win.onFullscreen = function(flag) {
-                //    if (flag) {
-                //        //win.setScale(win.getScreenScale());
-                //        win.setScale(win.getWindowScale());
-                //    } else {
-                //        if (typeof require !== 'undefined') { // electron
-                //            win.setScale(win.getWindowScale());
-                //        } else { // browser
-                //            win.setScale(1);
-                //        }
-                //    }
-                //};
-                ///* -------------------------------------- */
-                //
-                ////boot.memory.createOptions();
-                window.addEventListener("mousemove", () => {
-                    this.phgame.canvas.parentNode.style.cursor = 'url(' + this.assets.graphics_cursor_default() + '), auto';
-                    //this.phgame.canvas.parentNode.style.cursor = 'url(' + this.assets.graphics_cursor_pointer() + '), auto';
-                });
-            },
-            create: () => {
-                //console.log('boot create');
-                //this.phgame.scene.disableVisibilityChange = true;
-                //this.phgame.time.desiredFps = FPS;
-                //this.phgame.state.start("loading");
-            }
-        }
+        this.phscene = {};
+        this.phscene.init = () => {
+            $(this.phgame.canvas).css({width: "100%", height: "100%"});
+            this.phgame.canvas.oncontextmenu = () => {return false;}
+            //boot.memory.createOptions();
+            window.addEventListener("mousemove", () => {
+                this.phgame.canvas.parentNode.style.cursor = 'url(' + this.assets.graphics_cursor_default() + '), auto';
+                //this.phgame.canvas.parentNode.style.cursor = 'url(' + this.assets.graphics_cursor_pointer() + '), auto';
+            });
+        };
+        this.phscene.create = () => {
+            console.log('boot create');
+            //this.phgame.scene.disableVisibilityChange = true;
+            //this.phgame.config.fps = config.Fps();
+            //this.phgame.config.backgroundColor = 'red';
+            //scene_loading.Start();
+            //this.phgame.scene.stop('boot');
+            //this.phgame.scene.start('loading');
+            //this.phgame.scene.switch('boot', 'loading');
+            //this.phgame.scene.sleep('boot');
+            //this.phgame.scene.start('loading');
+            global.scene_loading.Start();
+        };
+        this.phscene.update = (time, dt) => { // for debug
+            console.log('boot', time, dt, this.phgame.config.fps);
+        };
+        this.phscene.update = null;
         this.phgame.scene.add(this._phsceneName, this.phscene);
-    }
-
-    Start() {
-        super.Start();
     }
 
 };

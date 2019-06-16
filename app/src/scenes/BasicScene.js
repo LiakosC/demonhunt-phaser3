@@ -24,6 +24,15 @@ module.exports = class {
         this.phgame.scene.start(this._phsceneName);
     }
 
+    Fullscreen(flag) {
+        switch(flag) {
+            case true:
+                console.log('Fullscreen 1');
+            case false:
+                console.log('Fullscreen 0');
+        }
+    }
+
     CreateKeys() {
         this.keys.A = ph.input.keyboard.addKey(Phaser.Keyboard.A);
         this.keys.D = ph.input.keyboard.addKey(Phaser.Keyboard.D);

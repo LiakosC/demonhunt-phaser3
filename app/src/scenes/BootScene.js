@@ -22,7 +22,7 @@ export class BootScene extends BasicScene {
     }
 
     create() {
-        console.log('boot.create');
+        //console.log('boot.create');
         this.game.scene.disableVisibilityChange = true;
         this.game.config.fps = app.config.Fps();
         this.game.config.backgroundColor = 'red';

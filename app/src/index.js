@@ -14,7 +14,8 @@ $(window).on('resize', (e) => {
     win.Center();
 });
 
-let app = new App();
-app.Init();
-app.Start();
-window.app = app; // Application is a singleton.
+window.app = new App();
+window.app.Init();
+window.app.Start();
+//global.app = app;
+//window.app = app; // Application is a singleton.

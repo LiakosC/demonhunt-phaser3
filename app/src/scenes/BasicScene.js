@@ -61,7 +61,12 @@ export class BasicScene extends Scene {
 
 };
 
-BasicScene.SCENE_BOOT = 'boot';
+BasicScene.SCENE_boot       = 'boot';
+BasicScene.SCENE_cinematic  = 'cinematic';
+BasicScene.SCENE_game       = 'game';
+BasicScene.SCENE_loading    = 'loading';
+BasicScene.SCENE_menu       = 'menu';
+BasicScene.SCENE_victory    = 'victory';
 
 //module.exports = BasicScene;
 //export default BasicScene;

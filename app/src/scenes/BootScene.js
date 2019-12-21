@@ -2,17 +2,12 @@ import {BasicScene} from './BasicScene';
 
 export class BootScene extends BasicScene {
 
-    constructor(phaserGame) {
-        //super(phaserGame);
-        super('boot');
-        //this._phsceneName = 'boot';
-        //this.phgame.scene.add(this._phsceneName, this);
-        //console.log('boot construct');
-        //this.create = this.create;
-        //this.test = 'test';
+    constructor() {
+        super(BasicScene.SCENE_boot);
     }
     
     init() {
+        //console.log('boot.init');
         $(this.game.canvas).css({width: "100%", height: "100%"});
         this.game.canvas.oncontextmenu = () => {return false;}
         //boot.memory.createOptions();
@@ -27,8 +22,7 @@ export class BootScene extends BasicScene {
     }
 
     create() {
-        //console.log('boot create');
-        console.log(this.test);
+        console.log('boot.create');
         //this.phgame.scene.disableVisibilityChange = true;
         //this.phgame.config.fps = config.Fps();
         //this.phgame.config.backgroundColor = 'red';

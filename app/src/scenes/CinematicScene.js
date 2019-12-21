@@ -1,14 +1,10 @@
 
+import {BasicScene} from './BasicScene';
 
-module.exports = class extends require('./BasicScene') {
+export class CinematicScene extends BasicScene {
 
-    constructor(phaserGame) {
-        super(phaserGame);
-        this._phsceneName = 'cinematic';
-        this.phscene = {
-            
-        };
-        this.phgame.scene.add(this._phsceneName, this.phscene);
+    constructor() {
+        super(BasicScene.SCENE_cinematic);
     }
 
 }

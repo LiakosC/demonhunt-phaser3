@@ -59,6 +59,10 @@ export class BasicScene extends Scene {
     //    this.keys.esc = ph.input.keyboard.addKey(Phaser.Keyboard.ESC);
     //}
 
+    ResizeCanvas() {
+        $(this.game.canvas).css({position: "absolute", left: "0%", top: "0%", width: "100%", height: "100%"});
+    }
+
 };
 
 BasicScene.SCENE_boot       = 'boot';

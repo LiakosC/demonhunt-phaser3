@@ -27,6 +27,9 @@ export class LoadingScene extends BasicScene {
         this.epicLoading.title.innerHTML = "Demon Hunt";
         this.epicLoading.subtitle.innerHTML = "LiakosZero";
         this.epicLoading.overbar.innerHTML = "Loading...";
+        //this.evens.on('shutdown', () => {
+        //    this.epicLoading.destroy();
+        //});
         //this.epicLoading.underbar.innerHTML = "The nightmare begins..";
         this.load.on('progress', (progress01) => {
             //console.log(this.load.progress, a, b);
@@ -113,11 +116,28 @@ export class LoadingScene extends BasicScene {
     }
 
     create() {
-        //console.log('loaidng create');
+        console.log('loading.create');
+        if (true) {
+			$(this.epicLoading.element).css({cursor: "pointer"});
+			$(this.epicLoading.element).find("*").css({cursor: "pointer"});
+			this.epicLoading.overbar.innerHTML = "Loading Completed!";
+			this.epicLoading.element.addEventListener("mousedown", () => {
+                this.shutdown();
+				this.game.scene.start(BasicScene.SCENE_cinematic);
+			});
+		} else {
+            this.game.scene.start(BasicScene.SCENE_cinematic);
+		}
     }
 
     update(time, dt) {
         //console.log(time, dt);
+        this.ResizeCanvas();
+    }
+
+    shutdown() {
+        console.log('loading.destroy');
+        this.epicLoading.destroy();
     }
 
 }

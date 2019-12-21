@@ -32,10 +32,10 @@ module.exports = class extends require('./BasicScene') {
             //this.phgame.scene.start('loading');
             global.scene_loading.Start();
         };
-        this.phscene.update = (time, dt) => { // for debug
-            console.log('boot', time, dt, this.phgame.config.fps);
-        };
-        this.phscene.update = null;
+        //this.phscene.update = (time, dt) => { // for debug
+        //    console.log('boot', time, dt, this.phgame.config.fps);
+        //};
+        //this.phscene.update = null;
         this.phgame.scene.add(this._phsceneName, this.phscene);
     }
 

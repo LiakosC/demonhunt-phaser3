@@ -1,15 +1,17 @@
-global.$ = require('jquery');
-const Phaser = require('phaser');
-const FlexibleWindow = require('./FlexibleWindow');
-const ConfigManager = require('./ConfigManager');
+$ = require('jquery');
+Phaser = require('phaser');
 
-const BasicScene = require('./scenes/BasicScene.js');
-const BootScene = require('./scenes/BootScene.js');
-const LoadingScene = require('./scenes/LoadingScene.js');
-const CinematicScene = require('./scenes/CinematicScene.js');
-const MenuScene = require('./scenes/MenuScene.js');
-const GameScene = require('./scenes/GameScene.js');
-const VictoryScene = require('./scenes/VictoryScene.js');
+FlexibleWindow = require('./FlexibleWindow');
+ConfigManager = require('./ConfigManager');
+EpicLoading = require('./EpicLoading');
+
+BasicScene = require('./scenes/BasicScene.js');
+BootScene = require('./scenes/BootScene.js');
+LoadingScene = require('./scenes/LoadingScene.js');
+CinematicScene = require('./scenes/CinematicScene.js');
+MenuScene = require('./scenes/MenuScene.js');
+GameScene = require('./scenes/GameScene.js');
+VictoryScene = require('./scenes/VictoryScene.js');
 
 global.config = new ConfigManager();
 
@@ -39,4 +41,4 @@ global.scene_menu = new MenuScene(phgame);
 global.scene_game = new GameScene(phgame);
 global.scene_victory = new VictoryScene(phgame);
 
-scene_boot.Start();
+global.scene_boot.Start();

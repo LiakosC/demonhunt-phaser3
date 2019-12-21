@@ -44,3 +44,11 @@ module.exports = class {
     }
 
 };
+
+//boot.profileMemoryData = null; // seted in profiles menu page. read only
+//boot.SetProfile = function(profileName) {
+//	boot.profileMemoryData = memory.data.profiles[profileName];
+//}
+//boot.StartLevel = function(episodeKey, levelKey) {
+//	game.start(episodeKey, levelKey);
+//}

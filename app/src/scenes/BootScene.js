@@ -23,16 +23,11 @@ export class BootScene extends BasicScene {
 
     create() {
         console.log('boot.create');
-        //this.phgame.scene.disableVisibilityChange = true;
-        //this.phgame.config.fps = config.Fps();
-        //this.phgame.config.backgroundColor = 'red';
-        //scene_loading.Start();
-        //this.phgame.scene.stop('boot');
-        //this.phgame.scene.start('loading');
-        //this.phgame.scene.switch('boot', 'loading');
-        //this.phgame.scene.sleep('boot');
-        //this.phgame.scene.start('loading');
-        //global.scene_loading.Start();
+        this.game.scene.disableVisibilityChange = true;
+        this.game.config.fps = app.config.Fps();
+        this.game.config.backgroundColor = 'red';
+        //this.game.scene.stop('boot');
+        this.game.scene.start(BasicScene.SCENE_loading);
     }
 
     update() {

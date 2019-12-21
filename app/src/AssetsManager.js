@@ -1,4 +1,4 @@
-module.exports = class {
+export class AssetsManager {
     constructor() {
         this._dir = '.';
     }

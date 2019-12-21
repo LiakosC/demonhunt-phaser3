@@ -1,7 +1,9 @@
 //const EpicLoading = require('../EpicLoading');
 const Phaser = require('phaser');
 
-module.exports = class extends require('./BasicScene') {
+import {BasicScene} from './BasicScene';
+
+export class LoadingScene extends BasicScene {
 
     constructor(phaserGame) {
         super(phaserGame);
@@ -56,7 +58,7 @@ module.exports = class extends require('./BasicScene') {
         this.phscene.update = (time, dt) => {
             //console.log(time, dt);
         };
-        this.phgame.scene.add(this._phsceneName, this.phscene);
+        //this.phgame.scene.add(this._phsceneName, this.phscene);
     }
 
 }

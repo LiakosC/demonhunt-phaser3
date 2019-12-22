@@ -10,6 +10,7 @@ import {CinematicScene} from './scenes/CinematicScene';
 import {MenuScene} from './scenes/MenuScene';
 import {GameScene} from './scenes/GameScene';
 import {VictoryScene} from './scenes/VictoryScene';
+import { JSONMemory } from './JSONMemory';
 
 
 export class App {
@@ -44,6 +45,63 @@ export class App {
         this.scene_game = new GameScene();
         this.scene_victory = new VictoryScene();
 
+        this.memory = new JSONMemory('demonhunt-ph3');
+        var memoryStruct_level = function() {return {completed: false, gold: 0, goldMax: 0};};
+        var memoryStruct_profile = function() {
+            return {
+                    episodes: {
+                    "1": {
+                        levels: {
+                            "1": memoryStruct_level(),
+                            "2": memoryStruct_level(),
+                            "3": memoryStruct_level(),
+                            "4": memoryStruct_level(),
+                            "5": memoryStruct_level()
+                        },
+                        artifacts: {
+                            "Mask of the Demon Hunter": false
+                        }
+                    },
+                    "2": {
+                        levels: {
+                            "1": memoryStruct_level(),
+                            "2": memoryStruct_level(),
+                            "3": memoryStruct_level(),
+                            "4": memoryStruct_level(),
+                            "5": memoryStruct_level(),
+                            "6": memoryStruct_level()
+                        },
+                        artifacts: {
+                            metallion: false,
+                            blade_of_souls: false,
+                            diamond: false
+                        }
+                    }
+                }
+            };
+        }
+        this.memory.Init({
+            profiles: {
+                "Default Player": memoryStruct_profile()
+            }, options: {}
+        });
+
+        this.profileMemoryData = null;
+
+    }
+
+    /**
+     * Select a profile.
+     * @param {String} profileName 
+     */
+    SetProfile(profileName) {
+        this.profileMemoryData = this.memory.data.profiles[profileName];
+    }
+
+    StartLevel(episodeKey, levelKey) {
+        this.scene_game.episode = episodeKey;
+        this.scene_game.level = levelKey;
+        this.phgame.scene.start(BasicScene.SCENE_game);
     }
 
     Init() {

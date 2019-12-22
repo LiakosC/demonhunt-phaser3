@@ -67,7 +67,7 @@ export class MenuScene extends BasicScene {
 					prof.classList.add("selected");
 				}).appendTo(list)[0];
 			}
-			for (var profileName in memory.data.profiles) {
+			for (var profileName in app.memory.data.profiles) {
 				insertProfile(profileName);
 				//console.log(prof);
 			}
@@ -77,9 +77,9 @@ export class MenuScene extends BasicScene {
 				var selected = list.querySelector(".selected");
 				if (selected != null) {
 					var profileName = selected.innerHTML;
-					boot.SetProfile(profileName);
+					app.SetProfile(profileName);
 					//memory.profile = profileName;
-					console.log("Profile selected: ", boot.profileMemoryData);
+					console.log("Profile selected: ", app.profileMemoryData);
 					this.BK.start("episodes");
 				}
 			});
@@ -137,7 +137,7 @@ export class MenuScene extends BasicScene {
 			$(this.box).find("button").eq(-1).on("click", () => {this.BK.start("episodes");});
 			
 			var choose_episode = this.chosenEpisode;
-			var profileData = boot.profileMemoryData;
+			var profileData = app.profileMemoryData;
 			var episodeData = profileData.episodes[choose_episode]; // episode
 			
 			/* artifacts div */
@@ -173,7 +173,7 @@ export class MenuScene extends BasicScene {
 				}).appendTo(ar_box)[0];
 				var img = document.createElement("img");
 				img.FUCK_artifactName = file;
-				img.src = GRAPHICS_ROOT+'/artifacts/'+file+'.png';
+				img.src = app.assets.graphics() + '/artifacts/'+file+'.png';
 				var artifactMouse = function(img, name) {
 					img.addEventListener("mouseover", () => {
 						var info = $(this.box).find(".choosealevel .artifact_info").show()[0];
@@ -201,7 +201,7 @@ export class MenuScene extends BasicScene {
 			for (var levelKey in episodeData.levels) {levelsCount++;}
 			
 			// Grid IDEA!!!
-			var createLevelButton = function(parent, levelKey) {
+			var createLevelButton = (parent, levelKey) => {
 				var parentWidth = parent.offsetWidth;
 				var parentHeight = parent.offsetHeight;
 				var maxCols = 4;
@@ -274,7 +274,7 @@ export class MenuScene extends BasicScene {
 			
 			/* hover */
 			var gold = $("<div>").addClass("info").html('\
-				<div class="image"><img src="'+GRAPHICS_ROOT+'/gold.png"/></div>\
+				<div class="image"><img src="' + app.assets.graphics() + '/gold.png"/></div>\
 				<div class="text">0/25</div>\
 			').hide().appendTo(box);
 			
@@ -315,7 +315,9 @@ export class MenuScene extends BasicScene {
     runGame(episode, level) {
         var episode = Number(episode); // somehow something is saved as string
         var level = Number(level);
-        game.start(episode, level);
+        this.shutdown();
+        app.StartLevel(episode, level);
+        //game.start(episode, level);
         //console.log(episode, level);
     }
 

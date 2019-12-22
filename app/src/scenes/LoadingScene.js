@@ -16,7 +16,8 @@ export class LoadingScene extends BasicScene {
 
     preload() {
         //console.log("loading.preload");
-        let htmlbox = this.game.canvas.parentNode;
+        //let htmlbox = this.game.canvas.parentNode;
+        let htmlbox = app.htmlbox;
         this.epicLoading = new EpicLoading(htmlbox);
         $(this.epicLoading.element).css({
             position: "absolute",
@@ -27,14 +28,9 @@ export class LoadingScene extends BasicScene {
         this.epicLoading.title.innerHTML = "Demon Hunt";
         this.epicLoading.subtitle.innerHTML = "LiakosZero";
         this.epicLoading.overbar.innerHTML = "Loading...";
-        //this.evens.on('shutdown', () => {
-        //    this.epicLoading.destroy();
-        //});
-        //this.epicLoading.underbar.innerHTML = "The nightmare begins..";
+        this.epicLoading.underbar.innerHTML = "";
         this.load.on('progress', (progress01) => {
-            //console.log(this.load.progress, a, b);
             this.epicLoading.setProgress(progress01);
-            //console.log("load", this.load.progress / 1);
         });
 
         // Paths aliases.
@@ -42,7 +38,7 @@ export class LoadingScene extends BasicScene {
         let graphics = app.assets.graphics();
         
         // Load cinematic.
-        if (true) {
+        if (global.app.enabledCinematic) {
             this.load.image("cinematic_0", graphics + "/cinematic/0.png");
             this.load.image("cinematic_1", graphics + "/cinematic/1.png");
             this.load.image("cinematic_2", graphics + "/cinematic/2.png");

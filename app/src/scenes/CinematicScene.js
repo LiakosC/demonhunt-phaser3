@@ -21,7 +21,8 @@ export class CinematicScene extends BasicScene {
         });
     }
 
-    create() {	
+    create() {
+        if (!app.config.enabledCinematic) this.Skip();
 		this.keys = {};
 		this.keys.esc = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
 		this.keys.enter = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);

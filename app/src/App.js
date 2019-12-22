@@ -19,8 +19,18 @@ export class App {
         this.config = new ConfigManager();
         this.assets = new AssetsManager();
 
+        this.gamebox = $("<div>").prop("id", "gamebox").appendTo(win.element).css({
+            position: "absolute",
+            left: "0%", top: "0%", width: "100%", height: "100%"
+        })[0];
+
+        this.htmlbox = $("<div>").prop("id", "htmlbox").appendTo(win.element).css({
+            position: "absolute",
+            left: "0%", top: "0%", width: "100%", height: "100%"
+        })[0];
+
         this.phgame = new Phaser.Game({
-            parent: 'canvas-box',
+            parent: this.gamebox,
             type: Phaser.AUTO,
             width: 1280,
             height: 900,
@@ -43,6 +53,7 @@ export class App {
         this.phgame.scene.add(BasicScene.SCENE_menu, this.scene_menu);
         this.phgame.scene.add(BasicScene.SCENE_game, this.scene_game);
         this.phgame.scene.add(BasicScene.SCENE_victory, this.scene_victory);
+        
     }
 
     Start() {

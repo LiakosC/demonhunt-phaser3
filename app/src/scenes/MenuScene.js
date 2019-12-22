@@ -1,4 +1,5 @@
 import { BasicScene } from "./BasicScene";
+import {Book} from '../Book';
 
 export class MenuScene extends BasicScene {
 
@@ -9,18 +10,19 @@ export class MenuScene extends BasicScene {
 
     create() {
         //boot.createKeys();
-		this.add.sprite(0, 0, "menu-image");
-		this.buttonHoverSound = this.add.audio("button-hover");
-		if (MENU_MUSIC) {
-			this.music = this.add.audio("menu-music", 1, true);
-			this.music.play();
+		this.add.sprite(this.game.canvas.width/2, this.game.canvas.height/2, "menu-image");
+		this.buttonHoverSound = this.sound.add("button-hover");
+		if (true) { // Play menu music.
+            //this.music = this.add.audio("menu-music", 1, true);
+            this.music = this.sound.add("menu-music", 1, true);
+			//this.music.play();
 		}
 		
-		this.box = $("<div>").addClass("menuBox").appendTo(htmlbox)[0];
+		this.box = $("<div>").addClass("menuBox").appendTo(app.htmlbox)[0];
 		//this.box.innerHTML = '<div id="innerDiv"></div>';
 		
 		this.BK = new Book();
-		this.BK.pageStart("main", function() {
+		this.BK.pageStart("main", () => {
 			console.log("book main");
 			$(this.box).addClass("main").html('\
 				<button>Profiles</button>\
@@ -28,18 +30,18 @@ export class MenuScene extends BasicScene {
 				<button>Cinematic</button>\
 				<button>Exit</button>\
 			');
-			$(this.box).find("button").eq(0).on("click", function() {this.BK.start("profiles");});
-			$(this.box).find("button").eq(1).on("click", function() {this.BK.start("options");});
-			$(this.box).find("button").eq(2).on("click", function() {cinematic.start();});
-			$(this.box).find("button").eq(3).on("click", function() {exit();});
-			$(this.box).find("button").on("mouseover", function() {this.buttonHoverSound.play();});
-			this.BK.pageEnd("main", function() {
+			$(this.box).find("button").eq(0).on("click", () => {this.BK.start("profiles");});
+			$(this.box).find("button").eq(1).on("click", () => {this.BK.start("options");});
+			$(this.box).find("button").eq(2).on("click", () => {cinematic.start();});
+			$(this.box).find("button").eq(3).on("click", () => {exit();});
+			$(this.box).find("button").on("mouseover", () => {this.buttonHoverSound.play();});
+			this.BK.pageEnd("main", () => {
 				$(this.box).removeClass("main").html('');
 			});
 		});
 		
 		// PROFILES
-		this.BK.pageStart("profiles", function() {
+		this.BK.pageStart("profiles", () => {
 			$(this.box).addClass("profiles").html('\
 			<div class="list">\
 				<div></div>\
@@ -57,7 +59,7 @@ export class MenuScene extends BasicScene {
 			');
 			var list = $(this.box).find(".list > div")[0];
 			var insertProfile = function(name) {
-				var prof = $("<div>").addClass("profile").html(name).on("mousedown", function() {
+				var prof = $("<div>").addClass("profile").html(name).on("mousedown", () => {
 					var profiles = list.querySelectorAll(".profile");
 					for (var i=0; i<profiles.length; i++) {
 						profiles[i].classList.remove("selected");
@@ -71,7 +73,7 @@ export class MenuScene extends BasicScene {
 			}
 			
 			// Load button
-			$(this.box).find(".buttons button").eq(0).on("click", function() {
+			$(this.box).find(".buttons button").eq(0).on("click", () => {
 				var selected = list.querySelector(".selected");
 				if (selected != null) {
 					var profileName = selected.innerHTML;
@@ -81,20 +83,20 @@ export class MenuScene extends BasicScene {
 					this.BK.start("episodes");
 				}
 			});
-			$(this.box).find(".back button").on("click", function() {this.BK.start("main");});
-			this.BK.pageEnd("profiles", function() {
+			$(this.box).find(".back button").on("click", () => {this.BK.start("main");});
+			this.BK.pageEnd("profiles", () => {
 				$(this.box).removeClass("profiles").html('');
 			});
 		});
 		
-		this.BK.pageStart("options", function() {
+		this.BK.pageStart("options", () => {
 			$(this.box).addClass("options").html('\
 				<div>Movement: A D</br>Attack: Left/Right arrows</br>Jump: W</br>Action: Spacebar</br>Speak: Enter</div>\
 				<div class="back"><button>Back</button></div>\
 			');
-			$(this.box).find("button").eq(0).on("click", function() {this.BK.start("main");});
-			$(this.box).find("button").on("mouseover", function() {this.buttonHoverSound.play();});
-			this.BK.pageEnd("options", function() {
+			$(this.box).find("button").eq(0).on("click", () => {this.BK.start("main");});
+			$(this.box).find("button").on("mouseover", () => {this.buttonHoverSound.play();});
+			this.BK.pageEnd("options", () => {
 				$(this.box).removeClass("options").html('');
 			});
 		});
@@ -102,7 +104,7 @@ export class MenuScene extends BasicScene {
 
 		// EPISODES
 		var choose_episode = -1;
-		this.BK.pageStart("episodes", function() {
+		this.BK.pageStart("episodes", () => {
 			// before it starts, the profile data must be saved in boot.profileMemoryData (string). boot.SetProfile(profileName)
 			$(this.box).addClass("episodes").html('\
 				<div><button>Trapped in Darkness</button></div>\
@@ -111,18 +113,18 @@ export class MenuScene extends BasicScene {
 				<div><button disabled="true">Apocalypse of the One</button></div>\
 				<div class="back"><button>Back</button></div>\
 			');
-			$(this.box).find("button").eq(0).on("click", function() { // ep 1
+			$(this.box).find("button").eq(0).on("click", () => { // ep 1
 				this.StartPage_levels(1);
 			});
-			$(this.box).find("button").eq(-1).on("click", function() { // back
+			$(this.box).find("button").eq(-1).on("click", () => { // back
 				this.BK.start("profiles");
 			});
-			this.BK.pageEnd("episodes", function() {
+			this.BK.pageEnd("episodes", () => {
 				$(this.box).removeClass("episodes").html('');
 			});
 		});
 		
-		this.BK.pageStart("levels", function() {
+		this.BK.pageStart("levels", () => {
 			// befure it starts, var choose_episode is edited (first is 1)
 			// knows about choose_episode
 			$(this.box).addClass("levels").html('\
@@ -132,7 +134,7 @@ export class MenuScene extends BasicScene {
 				</div>\
 				<div class="back"><button>Back</button></div>\
 			');
-			$(this.box).find("button").eq(-1).on("click", function() {this.BK.start("episodes");});
+			$(this.box).find("button").eq(-1).on("click", () => {this.BK.start("episodes");});
 			
 			var choose_episode = this.chosenEpisode;
 			var profileData = boot.profileMemoryData;
@@ -173,11 +175,11 @@ export class MenuScene extends BasicScene {
 				img.FUCK_artifactName = file;
 				img.src = GRAPHICS_ROOT+'/artifacts/'+file+'.png';
 				var artifactMouse = function(img, name) {
-					img.addEventListener("mouseover", function() {
+					img.addEventListener("mouseover", () => {
 						var info = $(this.box).find(".choosealevel .artifact_info").show()[0];
 						info.innerHTML = name; // artifact name
 					});
-					img.addEventListener("mouseout", function() {
+					img.addEventListener("mouseout", () => {
 						var info = $(this.box).find(".choosealevel .artifact_info").hide()[0];
 					});
 				}
@@ -245,10 +247,10 @@ export class MenuScene extends BasicScene {
 						btn.disabled = true;
 				}
 				
-				btn.addEventListener("click", function() {
+				btn.addEventListener("click", () => {
 					this.runGame(choose_episode, levelKey);
 				});
-				btn.addEventListener("mouseover", function() {
+				btn.addEventListener("mouseover", () => {
 					if (currentLevelData.completed) {
 						var info = $(this.box).find(".choosealevel .info").show()[0];
 						var goldElement = info.querySelector(".text");
@@ -257,7 +259,7 @@ export class MenuScene extends BasicScene {
 						goldElement.innerHTML = currentLevelData["gold"] + " / " + goldMax;
 					}
 				});
-				btn.addEventListener("mouseout", function() {
+				btn.addEventListener("mouseout", () => {
 					$(this.box).find(".choosealevel .info").hide();
 				});
 				
@@ -282,12 +284,13 @@ export class MenuScene extends BasicScene {
 			
 			
 			
-			this.BK.pageEnd("levels", function() {
+			this.BK.pageEnd("levels", () => {
 				$(this.box).removeClass("levels").html('');
 			});
 		});
 		
-		this.callback();
+        //this.callback();
+        this.BK.start('main');
     }
 
     update() {

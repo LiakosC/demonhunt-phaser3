@@ -50,8 +50,8 @@ export class LoadingScene extends BasicScene {
         
         // Load scenes basics.
         this.load.image("menu-image", graphics + "/menu-image.png");
-        //this.load.audio("menu-music", 'include/sp/music/menu.ogg');
-        //this.load.audio("button-hover", 'include/sp/gui/foup.wav');
+        this.load.audio("menu-music", audio + '/music/menu.ogg');
+        this.load.audio("button-hover", audio + '/gui/foup.wav');
         
         // Load game.
         this.load.image("empty", graphics + "/empty.png");

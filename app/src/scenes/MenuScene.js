@@ -14,7 +14,9 @@ export class MenuScene extends BasicScene {
 		this.buttonHoverSound = this.sound.add("button-hover");
 		if (true) { // Play menu music.
             //this.music = this.add.audio("menu-music", 1, true);
-            this.music = this.sound.add("menu-music", 1, true);
+            //this.music = this.sound.add("menu-music", 1, true);
+            this.music = this.sound.add("menu-music");
+            this.music.play();
 			//this.music.play();
 		}
 		
@@ -297,14 +299,18 @@ export class MenuScene extends BasicScene {
         this.ResizeCanvas();
     }
     
+    /**
+     * Custom method to clear current scene html and audio.
+     */
 	shutdown() {
+        //console.log('menu.shutdown');
 		if (this.music != null) {
 			this.music.destroy();
 			this.music = null;
 		}
 		this.BK.end();
 		this.box.parentNode.removeChild(this.box);
-	}
+    }
 
     StartPage_levels(episodeKey) {
         if (episodeKey == undefined) throw "episodeKey " + episodeKey;
@@ -316,9 +322,8 @@ export class MenuScene extends BasicScene {
         var episode = Number(episode); // somehow something is saved as string
         var level = Number(level);
         this.shutdown();
+        this.scene.stop();
         app.StartLevel(episode, level);
-        //game.start(episode, level);
-        //console.log(episode, level);
     }
 
 }

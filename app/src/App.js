@@ -2,6 +2,7 @@
 
 import {ConfigManager} from './ConfigManager';
 import {AssetsManager} from './AssetsManager';
+import {FlexibleWindow} from './FlexibleWindow';
 
 import {BasicScene} from './scenes/BasicScene';
 import {BootScene} from './scenes/BootScene';
@@ -20,6 +21,15 @@ export class App {
         this.config = new ConfigManager();
         this.assets = new AssetsManager();
 
+        window.win = new FlexibleWindow('window', this.config.width, this.config.height);
+        $(win.element).addClass('bg-dark');
+        win.MaxStretch();
+        win.Center();
+        $(window).on('resize', (e) => {
+            win.MaxStretch();
+            win.Center();
+        });
+
         this.gamebox = $("<div>").prop("id", "gamebox").appendTo(win.element).css({
             position: "absolute",
             left: "0%", top: "0%", width: "100%", height: "100%"
@@ -33,8 +43,8 @@ export class App {
         this.phgame = new Phaser.Game({
             parent: this.gamebox,
             type: Phaser.AUTO,
-            width: 1280,
-            height: 900,
+            width: this.config.width,
+            height: this.config.height,
         });
 
         // Save scenes instances so I can access their variables through console.

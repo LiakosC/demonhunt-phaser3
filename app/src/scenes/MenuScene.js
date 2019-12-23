@@ -34,7 +34,11 @@ export class MenuScene extends BasicScene {
 			');
 			$(this.box).find("button").eq(0).on("click", () => {this.BK.start("profiles");});
 			$(this.box).find("button").eq(1).on("click", () => {this.BK.start("options");});
-			$(this.box).find("button").eq(2).on("click", () => {cinematic.start();});
+			$(this.box).find("button").eq(2).on("click", () => {
+                this.shutdown();
+                app.scene_menu.scene.stop();
+                app.scene_cinematic.scene.start();
+            });
 			$(this.box).find("button").eq(3).on("click", () => {exit();});
 			$(this.box).find("button").on("mouseover", () => {this.buttonHoverSound.play();});
 			this.BK.pageEnd("main", () => {

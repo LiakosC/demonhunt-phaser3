@@ -38,7 +38,7 @@ export class LoadingScene extends BasicScene {
         let graphics = app.assets.graphics();
         
         // Load cinematic.
-        if (global.app.enabledCinematic) {
+        if (app.config.enabledCinematic) {
             this.load.image("cinematic_0", graphics + "/cinematic/0.png");
             this.load.image("cinematic_1", graphics + "/cinematic/1.png");
             this.load.image("cinematic_2", graphics + "/cinematic/2.png");
@@ -113,15 +113,19 @@ export class LoadingScene extends BasicScene {
 
     create() {
         console.log('loading.create');
-        if (true) {
+        if (!app.config.fastLoading) {
 			$(this.epicLoading.element).css({cursor: "pointer"});
 			$(this.epicLoading.element).find("*").css({cursor: "pointer"});
 			this.epicLoading.overbar.innerHTML = "Loading Completed!";
 			this.epicLoading.element.addEventListener("mousedown", () => {
                 this.shutdown();
+                this.game.scene.stop(BasicScene.SCENE_loading);
 				this.game.scene.start(BasicScene.SCENE_cinematic);
 			});
 		} else {
+            this.shutdown();
+            this.game.scene.stop(BasicScene.SCENE_loading);
+
             this.game.scene.start(BasicScene.SCENE_cinematic);
 		}
     }

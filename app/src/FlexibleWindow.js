@@ -76,6 +76,7 @@ export class FlexibleWindow {
 		this.element.style.top = this._y + "px";
 		this.element.style.width = this.current_W() + "px";
 		this.element.style.height = this.current_H() + "px";
+		this.element.style.fontSize = this._scaleX * 100 + "%";
 	}
 	
 	default_W() {return this._width;}

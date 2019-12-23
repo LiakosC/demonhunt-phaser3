@@ -1,6 +1,7 @@
 
 //const AssetsManager = require('../AssetsManager');
 import {Scene} from 'phaser';
+import { App } from '../App';
 
 /**
  * @property {Phaser.Game} phgame
@@ -61,6 +62,13 @@ export class BasicScene extends Scene {
 
     ResizeCanvas() {
         $(this.game.canvas).css({position: "absolute", left: "0%", top: "0%", width: "100%", height: "100%"});
+    }
+
+    /**
+     * @returns {App}
+     */
+    app() {
+        return global.app;
     }
 
 };

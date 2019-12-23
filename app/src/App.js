@@ -17,7 +17,6 @@ import { JSONMemory } from './JSONMemory';
 export class App {
 
     constructor() {
-        
 
         window.oncontextmenu = function() {return false;};
 
@@ -130,6 +129,7 @@ export class App {
     Start() {
         this.phgame.scene.start(BasicScene.SCENE_boot);
     }
+    
 };
 
 //export default App;

@@ -20,7 +20,7 @@ export class MenuScene extends BasicScene {
 			//this.music.play();
 		}
 		
-		this.box = $("<div>").addClass("menuBox").appendTo(app.htmlbox)[0];
+		this.box = $("<div>").addClass("menuBox").appendTo(this.app().htmlbox)[0];
 		//this.box.innerHTML = '<div id="innerDiv"></div>';
 		
 		this.BK = new Book();
@@ -36,8 +36,8 @@ export class MenuScene extends BasicScene {
 			$(this.box).find("button").eq(1).on("click", () => {this.BK.start("options");});
 			$(this.box).find("button").eq(2).on("click", () => {
                 this.shutdown();
-                app.scene_menu.scene.stop();
-                app.scene_cinematic.scene.start();
+                this.app().scene_menu.scene.stop();
+                this.app().scene_cinematic.scene.start();
             });
 			$(this.box).find("button").eq(3).on("click", () => {exit();});
 			$(this.box).find("button").on("mouseover", () => {this.buttonHoverSound.play();});
@@ -74,7 +74,7 @@ export class MenuScene extends BasicScene {
 					prof.classList.add("selected");
 				}).appendTo(list)[0];
 			}
-			for (var profileName in app.memory.data.profiles) {
+			for (var profileName in this.app().memory.data.profiles) {
 				insertProfile(profileName);
 				//console.log(prof);
 			}
@@ -84,16 +84,16 @@ export class MenuScene extends BasicScene {
 				var selected = list.querySelector(".selected");
 				if (selected != null) {
 					var profileName = selected.innerHTML;
-					app.SetProfile(profileName);
+					this.app().SetProfile(profileName);
 					//memory.profile = profileName;
-					console.log("Profile selected: ", app.profileMemoryData);
+					console.log("Profile selected: ", this.app().profileMemoryData);
 					this.BK.start("episodes");
 				}
             });
 
             // Click restart button.
             $(this.box).find('.buttons button').eq(3).on('click', () => {
-                app.memory.Purge();
+                this.app().memory.Purge();
                 // todo: Re-init memory structure.
                 this.BK.start('profiles');
             });
@@ -153,7 +153,7 @@ export class MenuScene extends BasicScene {
 			$(this.box).find("button").eq(-1).on("click", () => {this.BK.start("episodes");});
 			
 			var choose_episode = this.chosenEpisode;
-			var profileData = app.profileMemoryData;
+			var profileData = this.app().profileMemoryData;
 			var episodeData = profileData.episodes[choose_episode]; // episode
 			
 			/* artifacts div */
@@ -189,7 +189,7 @@ export class MenuScene extends BasicScene {
 				}).appendTo(ar_box)[0];
 				var img = document.createElement("img");
 				img.FUCK_artifactName = file;
-				img.src = app.assets.graphics() + '/artifacts/'+file+'.png';
+				img.src = this.app().assets.graphics() + '/artifacts/'+file+'.png';
 				var artifactMouse = function(img, name) {
 					img.addEventListener("mouseover", () => {
 						var info = $(this.box).find(".choosealevel .artifact_info").show()[0];
@@ -290,7 +290,7 @@ export class MenuScene extends BasicScene {
 			
 			/* hover */
 			var gold = $("<div>").addClass("info").html('\
-				<div class="image"><img src="' + app.assets.graphics() + '/gold.png"/></div>\
+				<div class="image"><img src="' + this.app().assets.graphics() + '/gold.png"/></div>\
 				<div class="text">0/25</div>\
 			').hide().appendTo(box);
 			
@@ -307,6 +307,7 @@ export class MenuScene extends BasicScene {
 		
         //this.callback();
         this.BK.start('main');
+        this.app().config.menuCallback();
     }
 
     update() {
@@ -337,7 +338,7 @@ export class MenuScene extends BasicScene {
         var level = Number(level);
         this.shutdown();
         this.scene.stop();
-        app.StartLevel(episode, level);
+        this.app().StartLevel(episode, level);
     }
 
 }

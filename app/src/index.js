@@ -8,6 +8,13 @@ import {App} from './App';
 var app = new App();
 app.config.enabledCinematic = false;
 app.config.fastLoading = true;
+if (true) {
+    app.config.menuCallback = () => {
+        app.scene_menu.shutdown();
+        app.scene_menu.scene.stop();
+        app.StartLevel(1, 1);
+    };
+}
 
 app.Init();
 app.Start();

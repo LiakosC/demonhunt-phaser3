@@ -23,15 +23,6 @@ export class Speaker {
 		}).appendTo(parent)[0];
 
 		this.eventer = new Phaser.Events.EventEmitter();
-		this.eventer.on(Speaker.EVENT_OPEN, () => {
-
-		});
-		this.eventer.on(Speaker.EVENT_CLOSE, () => {
-
-		});
-		this.eventer.on(Speaker.EVENT_SPEAK, (text) => {
-			console.log(text);
-		});
 
 		window.addEventListener("keydown", (e) => {this._keydown(e);});//
 

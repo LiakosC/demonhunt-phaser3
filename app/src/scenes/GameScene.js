@@ -1,5 +1,6 @@
 import { BasicScene } from "./BasicScene";
 import { Speaker } from "../Speaker";
+import { GameInput } from "../GameInput";
 
 export class GameScene extends BasicScene {
 
@@ -7,14 +8,26 @@ export class GameScene extends BasicScene {
         super(BasicScene.SCENE_game);
         this.episode = null;
         this.level = null;
-        this.input = null;
+        this.inputer = null;
         this.speaker = null;
     }
 
     init() {
         console.log('game.init');//
         this.speaker = new Speaker(this.app().htmlbox);
-        //this.input = 
+        this.inputer = new GameInput(this);
+        
+		this.speaker.eventer.on(Speaker.EVENT_OPEN, () => {
+            this.inputer.Toggle(false);
+        });
+        
+		this.speaker.eventer.on(Speaker.EVENT_CLOSE, () => {
+            this.inputer.Toggle(true);
+        });
+        
+		this.speaker.eventer.on(Speaker.EVENT_SPEAK, (text) => {
+			console.log(text);
+		});
         
         this.speaker.toggle(false);
 
@@ -31,7 +44,7 @@ export class GameScene extends BasicScene {
     shutdown() {
         this.speaker.destroy();
 		this.exitDiv.parentNode.removeChild(game.exitDiv);
-		this.input.Destroy();
+		this.inputer.Destroy();
 		this.music.destroy();
     }
 

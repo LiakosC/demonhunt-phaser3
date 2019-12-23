@@ -17,6 +17,9 @@ import { JSONMemory } from './JSONMemory';
 export class App {
 
     constructor() {
+        
+
+        window.oncontextmenu = function() {return false;};
 
         this.config = new ConfigManager();
         this.assets = new AssetsManager();
@@ -92,7 +95,7 @@ export class App {
         }
         this.memory.Init({
             profiles: {
-                "Default Player": memoryStruct_profile()
+                "Default": memoryStruct_profile()
             }, options: {}
         });
 

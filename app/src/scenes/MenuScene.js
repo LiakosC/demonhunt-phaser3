@@ -56,7 +56,8 @@ export class MenuScene extends BasicScene {
 				<div>\
 					<button>Load</button>\
 					<button disabled>New</button>\
-					<button disabled>Delete</button>\
+                    <button disabled>Delete</button>\
+                    <button>Restart</button>\
 				</div>\
 			</div>\
 			<div class="back">\
@@ -78,7 +79,7 @@ export class MenuScene extends BasicScene {
 				//console.log(prof);
 			}
 			
-			// Load button
+			// Click load button.
 			$(this.box).find(".buttons button").eq(0).on("click", () => {
 				var selected = list.querySelector(".selected");
 				if (selected != null) {
@@ -88,11 +89,20 @@ export class MenuScene extends BasicScene {
 					console.log("Profile selected: ", app.profileMemoryData);
 					this.BK.start("episodes");
 				}
-			});
+            });
+
+            // Click restart button.
+            $(this.box).find('.buttons button').eq(3).on('click', () => {
+                app.memory.Purge();
+                // todo: Re-init memory structure.
+                this.BK.start('profiles');
+            });
+
 			$(this.box).find(".back button").on("click", () => {this.BK.start("main");});
 			this.BK.pageEnd("profiles", () => {
 				$(this.box).removeClass("profiles").html('');
-			});
+            });
+            
 		});
 		
 		this.BK.pageStart("options", () => {

@@ -65,6 +65,7 @@ export class BasicScene extends Scene {
     }
 
     /**
+     * Alias for app singleton.
      * @returns {App}
      */
     app() {

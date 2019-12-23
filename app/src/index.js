@@ -6,6 +6,7 @@ import {App} from './App';
  * @var {App} app
  */
 var app = new App();
+global.app = app; window.app = app; // Application is a singleton.
 app.config.enabledCinematic = false;
 app.config.fastLoading = true;
 if (true) {
@@ -18,4 +19,3 @@ if (true) {
 
 app.Init();
 app.Start();
-global.app = app; window.app = app; // Application is a singleton.

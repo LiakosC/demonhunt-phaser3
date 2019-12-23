@@ -1,14 +1,9 @@
+import { BasicScene } from "./BasicScene";
 
+export class VictoryScene extends BasicScene {
 
-module.exports = class extends require('./BasicScene') {
-
-    constructor(phaserGame) {
-        super(phaserGame);
-        this._phsceneName = 'victory';
-        this.phscene = {
-
-        };
-        this.phgame.scene.add(this._phsceneName, this.scene);
+    constructor() {
+        super(BasicScene.SCENE_victory);
     }
 
 }

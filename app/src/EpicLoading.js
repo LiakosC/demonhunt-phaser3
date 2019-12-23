@@ -9,7 +9,7 @@ if (loading.progress == 1) {
 
 
 
-class EpicLoading {
+export class EpicLoading {
 
 	constructor(container) {
 		var THIS = this;
@@ -55,4 +55,4 @@ class EpicLoading {
 
 //if (typeof module != 'undefined') module.exports = EpicLoading;
 
-module.exports = EpicLoading;
+//module.exports = EpicLoading;

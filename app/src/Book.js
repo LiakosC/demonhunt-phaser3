@@ -28,34 +28,38 @@ menuBook.start("options");
 menuBook.end(); // ends a started page if there is any
 */
 
-var Book = function() {
-	var _pagesStartCallbacks = {}; // map <string, function>
-	var _pagesEndCallbacks = {}; // map <string, function>
+export class Book  {
+
+	constructor() {
+		this._pagesStartCallbacks = {}; // map <string, function>
+		this._pagesEndCallbacks = {}; // map <string, function>
+		this.page = ""; // string
+	}
 	
 	// SET PAGE FUNCTIONS INSIDE CODE
-	this.pageStart = function(pageKey, callback) {
-		_pagesStartCallbacks[pageKey] = callback;
+	pageStart(pageKey, callback) {
+		this._pagesStartCallbacks[pageKey] = callback;
 	};
-	this.pageEnd = function(pageKey, callback) {
-		_pagesEndCallbacks[pageKey] = callback;
+
+	pageEnd(pageKey, callback) {
+		this._pagesEndCallbacks[pageKey] = callback;
 	};
 	
 	// USE START TO SWITCH PAGES
-	this.start = function(pageKey) {
-		if (_pagesStartCallbacks[pageKey] != null) {
+	start(pageKey) {
+		if (this._pagesStartCallbacks[pageKey] != null) {
 			if (this.page != "") {
-				_pagesEndCallbacks[this.page]();
+				this._pagesEndCallbacks[this.page]();
 			}
-			_pagesStartCallbacks[pageKey]();
+			this._pagesStartCallbacks[pageKey]();
 			this.page = pageKey;
 		}
 	};
-	this.end = function() {
+	end() {
 		if (this.page != "") {
-			_pagesEndCallbacks[this.page]();
+			this._pagesEndCallbacks[this.page]();
 			this.page = "";
 		}
 	}
-	this.page = ""; // string
 };
 

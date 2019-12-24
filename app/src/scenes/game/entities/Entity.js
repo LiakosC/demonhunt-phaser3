@@ -4,11 +4,11 @@
 	- highlightGraphic
 */
 
-game.Entity = class {
+export class Entity {
 	
 	constructor() {
-		this.x = 0; // RO
-		this.y = 0; // RO
+		this.x = 0;
+		this.y = 0;
 	
 		this.room = null;
 	
@@ -105,10 +105,12 @@ game.Entity = class {
 }
 
 
-game.RectEntity = class extends game.Entity {
+export class RectEntity extends Entity {
+
 	constructor() {
 		super();
 	}
+
 	SetSize(width, height) {
 		this.textureSprite.body.setSize(width, height);
 	}

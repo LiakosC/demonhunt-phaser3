@@ -2,6 +2,7 @@ import { BasicScene } from "./BasicScene";
 import { Speaker } from "../Speaker";
 import { GameInput } from "../GameInput";
 import { BaseLevel } from "./game/levels/BaseLevel";
+import { Room } from "./game/entities/Room";
 
 /**
  * @class GameScene
@@ -133,12 +134,12 @@ export class GameScene extends BasicScene {
 
     createGate150(x, y) {
         var gate = {};
-        gate.sprite = ph.add.sprite(x, y, "gate150_closed");
-        ph.physics.arcade.enable(gate.sprite);
+        gate.sprite = this.add.sprite(x, y, "gate150_closed");
+        this.physics.arcade.enable(gate.sprite);
         gate.sprite.body.immovable = true;
         gate.sprite.body.setSize(50, 150);
         gate.updateCB = function() {
-            ph.physics.arcade.collide(this.me.sprite, gate.sprite);
+            this.physics.arcade.collide(this.me.sprite, gate.sprite);
         }
         this.onUpdate.add(gate.updateCB);
         gate.opened = false;
@@ -155,7 +156,7 @@ export class GameScene extends BasicScene {
             gate.sound.play();
         }
         gate.toggle = function() {if (gate.opened) {gate.close();} else {gate.open();}}
-        gate.sound = ph.add.audio("open");
+        gate.sound = this.add.audio("open");
         return gate;
     }
     
@@ -208,19 +209,34 @@ export class GameScene extends BasicScene {
             return coin;
         }
     }
+
+    /**
+     * 
+     * @param {Number} sizeX 
+     * @param {Number} sizeY 
+     * @deprecated
+     */
     SetWorld(sizeX, sizeY) {
-        ph.world.setBounds(0, 0, sizeX, sizeY);
+        //this.world.setBounds(0, 0, sizeX, sizeY);
     }
+
+    /**
+     * 
+     * @param {Number} x 
+     * @param {Number} y 
+     * @returns {Room}
+     */
     CreateRoom(x, y) {
-        var room = new this.Room(x, y);
+        var room = new Room(x, y);
         this.rooms.push(room);
         return room;
     }
+
     CreateHero(room, x, y, direction) {
         var hero = new this.HeroUnit();
         hero.room = room;
         hero.SetPosition(x, y);
-        ph.camera.follow(hero.GetBodySprite());
+        this.camera.follow(hero.GetBodySprite());
         //console.log("hero pos", hero.pointSprite.x, hero.pointSprite.y);
         hero.onDeath.add(function() {
             this.defeat();

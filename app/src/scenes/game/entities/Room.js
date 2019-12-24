@@ -1,4 +1,5 @@
-game.Room = class {
+
+export class Room {
 
 	constructor(x, y) {
 		this.name = "Room";

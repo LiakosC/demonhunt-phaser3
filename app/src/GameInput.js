@@ -1,5 +1,8 @@
 import {GameScene} from './scenes/GameScene';
 
+/**
+ * @property {Object.<Phaser.Input.Keyboard.Key>} keys
+ */
 export class GameInput {
 
     /**
@@ -8,15 +11,36 @@ export class GameInput {
      */
     constructor(gameScene) {
         this.gameScene = gameScene;
-        this._CreateKeys();
-        this._ClearCaptures();
+
+        ///** @param {Object.<Phaser.Input.Keyboard.Key>} this.keys */
+        this.keys = {
+            left: this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A),
+            right: this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D),
+            down: this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S),
+            up: this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W),
+            use: this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACEBAR),
+            chat: this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER),
+            esc: this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC),
+            attack_left: this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT),
+            attack_right: this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT),
+        };
+        this.keys.left.on('down', () => {this._MoveStateChanged();});
+        this.keys.left.on('up', () => {this._MoveStateChanged();});
+        this.keys.right.on('down', () => {this._MoveStateChanged();});
+        this.keys.right.on('up', () => {this._MoveStateChanged();});
+        this.keys.up.on('down', () => {this._CastJump();});
+        this.keys.use.on('down', () => {this._CastUse();});
+        this.keys.attack_left.on('down', () => {this._CastAttack(-1);});
+        this.keys.attack_right.on('down', () => {this._CastAttack(+1);});
+        
+        this.gameScene.input.keyboard.clearCaptures(); // Somehow this allows the keyboard to write in input elements.
     }
 
     /* ---------------------- LINKS -------------------------- */
     _CastDirectionMove(direction) {
         if (this.gameScene.me != null) {
             this.gameScene.me.CastDirectionMove(direction);
-            //console.log("move", direction);
+            console.log("move", direction);
         }
     }
     _CastJump() {
@@ -36,57 +60,23 @@ export class GameInput {
     }
     /* ---------------------- LINKS -------------------------- */
 
-    _ClearCaptures() { // somehow this frees the keyboard and enables it to write in input elements
-        this.gameScene.input.keyboard.clearCaptures();
-    }
     _CreateKeys() {
-        this.keys = {};
-        this.keys.left = this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.keys.right = this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.keys.down = this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.keys.up = this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
-        this.keys.use = this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACEBAR);
-        this.keys.chat = this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-        this.keys.esc = this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-        this.keys.attack_left = this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.keys.attack_right = this.gameScene.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-    }
-    _RemoveKeys() {
-        this.gameScene.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.A);
-        this.gameScene.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.D);
-        this.gameScene.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.S);
-        this.gameScene.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.W);
-        this.gameScene.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.SPACEBAR);
-        this.gameScene.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-        this.gameScene.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.ESC);
-        this.gameScene.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
-        this.gameScene.input.keyboard.removeKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
     }
     
     Toggle(flag) {
-        var THIS = this;
         if (flag) {
-            this.keys.left.onDown.add(THIS._MoveStateChanged, THIS);
-            this.keys.left.onUp.add(THIS._MoveStateChanged, THIS);
-            this.keys.right.onDown.add(THIS._MoveStateChanged, THIS);
-            this.keys.right.onUp.add(THIS._MoveStateChanged, THIS);
-            this.keys.up.onDown.add(function() {THIS._CastJump();});
-            this.keys.use.onDown.add(function() {THIS._CastUse();});
-            this.keys.attack_left.onDown.add(function() {THIS._CastAttack(-1);});
-            this.keys.attack_right.onDown.add(function() {THIS._CastAttack(1);});
+            for (const [code, phKey] of Object.entries(this.keys)) {
+                phKey.enabled = true;
+            }
         } else {
-            this.keys.left.onDown.removeAll();
-            this.keys.left.onUp.removeAll();
-            this.keys.right.onDown.removeAll();
-            this.keys.right.onUp.removeAll();
-            this.keys.up.onDown.removeAll();
-            this.keys.use.onDown.removeAll();
-            this.keys.attack_left.onDown.removeAll();
-            this.keys.attack_right.onDown.removeAll();
+            for (const [code, phKey] of Object.entries(this.keys)) {
+                phKey.enabled = false;
+            }
         }
     }
     
     _MoveStateChanged() {
+        console.log('_MoveStateChanged');
         if (this.keys.left.isDown && this.keys.right.isDown) {
             this._CastDirectionMove(0);
         } else if (this.keys.left.isDown) {
@@ -99,6 +89,9 @@ export class GameInput {
     }
         
     Destroy() {
-        this._RemoveKeys();
+        for (const [k, phKey] of Object.entries(this.keys)) {
+            phKey.destroy();
+        }
     }
+
 }

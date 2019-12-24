@@ -24,7 +24,7 @@ export class Speaker {
 
 		this.eventer = new Phaser.Events.EventEmitter();
 
-		window.addEventListener("keydown", (e) => {this._keydown(e);});//
+		window.addEventListener("keydown", (e) => {this._keydown(e);});
 
 	}
 

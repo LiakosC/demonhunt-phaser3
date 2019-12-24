@@ -1,12 +1,19 @@
-game.Unit = class extends game.Entity {
+import { Entity } from "./Entity";
+
+
+export class Unit extends Entity {
+
 	constructor() {
 		super();
 		var THIS = this;
-		this.GetBodySprite().anchor.setTo(0.5, 0.5);
-		ph.physics.enable(this.GetBodySprite());
-		this.textureSprite = ph.add.sprite(0, 0, null);
-		this.textureSprite.anchor.setTo(0.5, 0.5);
+		//this.GetBodySprite().anchor.setTo(0.5, 0.5);
+		this.GetBodySprite().setOrigin(0.5, 0.5);
+		//ph.physics.enable(this.GetBodySprite());
+		this.textureSprite = this.scene().add.sprite(0, 0, null);
+		//this.textureSprite.anchor.setTo(0.5, 0.5);
+		//this.textureSprite.setOr
 		this.GetBodySprite().addChild(this.textureSprite);
+		this.GetBodySprite().
 		this.SetGravity(GRAVITY);
 		this.alive = true;
 		this.hp = 100;
@@ -125,4 +132,5 @@ game.Unit = class extends game.Entity {
 		this.sprite.destroy();
 		//game.units.splice(game.units.indexOf(this), 1);
 	}
+	
 };

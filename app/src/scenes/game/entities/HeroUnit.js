@@ -1,4 +1,7 @@
-game.HeroUnit = class extends game.Unit {
+import { Unit } from "./Unit";
+
+export class HeroUnit extends Unit {
+
 	constructor() {
 		super();
 		var THIS = this;

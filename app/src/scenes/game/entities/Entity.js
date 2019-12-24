@@ -1,3 +1,5 @@
+import { GameScene } from "../../GameScene";
+
 /*
 - pointSprite
 	- textureSprite
@@ -5,6 +7,11 @@
 */
 
 export class Entity {
+
+	/**
+	 * @returns {GameScene}
+	 */
+	scene() {return global.app.scene_game;}
 	
 	constructor() {
 		this.x = 0;
@@ -12,8 +19,9 @@ export class Entity {
 	
 		this.room = null;
 	
-		this.sprite = ph.add.sprite(0, 0, null); // used for collisions
-		ph.physics.enable(this.sprite);
+		this.sprite = this.scene().add.sprite(0, 0, null); // used for collisions
+		//this.scene().physics.enable(this.sprite);
+
 		//ph.physics.enable(this.textureSprite);
 		//this.sprite.addChild(this.textureSprite);
 		//this.pointSprite.addChild(this.highlightGraphic);

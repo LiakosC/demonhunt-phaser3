@@ -1,5 +1,13 @@
+import { GameScene } from "../../GameScene";
 
 export class Room {
+
+	/**
+	 * @returns {GameScene}
+	 */
+	scene() {
+		return global.app.scene_game;
+	}
 
 	constructor(x, y) {
 		this.name = "Room";
@@ -16,8 +24,9 @@ export class Room {
 		this.coins 		= [];
 		this.artifacts	= [];
 	
-		this.onUpdate = new Phaser.Signal();
-		this.onRender = new Phaser.Signal();
+		this.events = new Phaser.Events.EventEmitter();
+		//this.onUpdate = new Phaser.Signal();
+		//this.onRender = new Phaser.Signal();
 
 	}
 	G2Rect(x, y, w, h) {
@@ -25,8 +34,9 @@ export class Room {
 	}
 	
 	CreateHero(x, y, direction) {
-		return game.CreateHero(this, this.x + x, this.y + y, direction);
+		return this.scene().CreateHero(this, this.x + x, this.y + y, direction);
 	}
+	
 	CreateManyCoins(coins) {
 		for (var i=0; i<coins.length; i++) {
 			game.CreateCoin(this, this.x + coins[i].x, this.y + coins[i].y);
@@ -297,4 +307,6 @@ export class Room {
 		}
 		this.onRender.dispatch();
 	}
-}
+};
+
+Room.EVENT_update = 'event_update';

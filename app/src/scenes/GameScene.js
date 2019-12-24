@@ -3,6 +3,7 @@ import { Speaker } from "../Speaker";
 import { GameInput } from "../GameInput";
 import { BaseLevel } from "./game/levels/BaseLevel";
 import { Room } from "./game/entities/Room";
+import { HeroUnit } from "./game/entities/HeroUnit";
 
 /**
  * @class GameScene
@@ -233,7 +234,7 @@ export class GameScene extends BasicScene {
     }
 
     CreateHero(room, x, y, direction) {
-        var hero = new this.HeroUnit();
+        var hero = new HeroUnit();
         hero.room = room;
         hero.SetPosition(x, y);
         this.camera.follow(hero.GetBodySprite());

@@ -47,13 +47,12 @@ export class Book  {
 	
 	// USE START TO SWITCH PAGES
 	start(pageKey) {
-		if (this._pagesStartCallbacks[pageKey] != null) {
-			if (this.page != "") {
-				this._pagesEndCallbacks[this.page]();
-			}
-			this._pagesStartCallbacks[pageKey]();
-			this.page = pageKey;
+		if (this._pagesStartCallbacks[pageKey] == null) throw Error('Book has not key: ' + pageKey);
+		if (this.page != "") {
+			this._pagesEndCallbacks[this.page]();
 		}
+		this._pagesStartCallbacks[pageKey]();
+		this.page = pageKey;
 	};
 	end() {
 		if (this.page != "") {

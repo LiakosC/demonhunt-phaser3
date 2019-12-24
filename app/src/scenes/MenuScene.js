@@ -5,7 +5,8 @@ export class MenuScene extends BasicScene {
 
     constructor() {
         super(BasicScene.SCENE_menu);
-        this.chosenEpisode = 0; // Set here before loading the levels page.
+		this.chosenEpisode = 0; // Set here before loading the levels page.
+		this._bookPageKey = 'main';
     }
 
     create() {
@@ -306,7 +307,7 @@ export class MenuScene extends BasicScene {
 		});
 		
         //this.callback();
-        this.BK.start('main');
+        this.BK.start(this._bookPageKey);
         this.app().config.menuCallback();
     }
 
@@ -339,6 +340,15 @@ export class MenuScene extends BasicScene {
         this.shutdown();
         this.scene.stop();
         this.app().StartLevel(episode, level);
-    }
+	}
+	
+	/**
+	 * Starts the scene with more parameters.
+	 * @param {String} bookPageKey 
+	 */
+	Start(bookPageKey) {
+		this._bookPageKey = bookPageKey;
+		this.scene.start();
+	}
 
 }

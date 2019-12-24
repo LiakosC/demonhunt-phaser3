@@ -65,7 +65,7 @@ export class LoadingScene extends BasicScene {
         this.load.image("skeleton_dead", graphics + "/enemies/skeleton/dead.png");
         this.load.spritesheet("skeleton_attack", graphics + "/enemies/skeleton/attack.png", {frameWidth: 370/5, frameHeight: 350/5, endFrame: 25});
         
-        this.load.spritesheet("gold", graphics + "/gold_spritesheet.png",  {frameWidth: 350/7, frameHeight: 50, endFrame: 7});
+        this.load.spritesheet("gold", graphics + "/gold_spritesheet.png",  {frameWidth: 350/7, frameHeight: 50});
         this.load.image("Mask of the Demon Hunter", graphics + "/artifacts/Mask of the Demon Hunter.png");
         
         this.load.image("blue-wall", graphics + "/walls/blue-wall.png");

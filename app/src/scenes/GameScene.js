@@ -13,7 +13,7 @@ export class GameScene extends BasicScene {
     }
 
     init() {
-        console.log('game.init');//
+        console.log('this.init');//
         this.speaker = new Speaker(this.app().htmlbox);
         this.inputer = new GameInput(this);
         
@@ -34,7 +34,78 @@ export class GameScene extends BasicScene {
     }
 
     create() {
-        console.log('game.create');
+        console.log('this.create');
+		this.spritesGroup 		= this.add.group();
+		this.doorsGroup 		= this.add.group();
+		this.meGroup			= this.add.group();
+		this.goldGroup			= this.add.group();
+		this.artifactsGroup		= this.add.group();
+		this.wallsGroup 		= this.add.group();
+		this.tilesGroup 		= this.add.group();
+		this.enemiesGroup		= this.add.group();
+		this.fogGroup			= this.add.group();
+		this.deathSpriteGroup 	= this.add.group();
+		
+		this.rooms = [];
+		
+		this.goldGained = 0;
+		this.levelGold = 0; // this.CreateCoin increases this value. it is explored and then saved in memory level as goldMax
+		this.artifactsGained = []; // names of artifacts gained in level
+
+		//this.lighter = new G2_Phaser_Lighter(ph);
+		
+		//boot.episodes[this.episode].levels[this.level].init();
+		//boot.profileMemoryData.episodes[this.episode].levels[this.level].goldMax = this.levelGold;
+        
+		this.goldInfo = {
+            sprite: this.add.sprite(28, 25, "gold"),
+            text: this.add.text(54, 14, "?", {font: "bold 18pt Arial", fill: "white"}),
+            update: () => {
+                this.goldInfo.text.setText(this.goldGained + " / " + this.levelGold);
+            },
+        };
+        let coinDance = this.anims.create({
+            key: 'goldInfo.coinDance',
+            frames: this.anims.generateFrameNumbers('gold'),
+            frameRate: 18,
+            repeat: -1,
+        });
+        this.goldInfo.sprite.anims.play(coinDance);
+        //this.goldInfo.sprite.anims.skipMissedFrames = true;
+        this.goldInfo.sprite.fixedToCamera = true;
+        this.goldInfo.sprite.setScale(0.6);
+        this.goldInfo.text.setShadow(1, 1, "black");
+        this.goldInfo.text.fixedToCamera = true;
+        this.goldInfo.update();
+		
+		this.levelText = this.add.text(this.game.canvas.width / 2, 14, "Level " + this.level, {font: "bold 18pt Arial", fill: "white"});
+        this.levelText.fixedToCamera = true;
+        this.levelText.setOrigin(0.5, 0);
+		//this.levelText.anchor.setTo(0.5, 0);
+		this.levelText.setShadow(1, 1, "black");
+		
+		this.exitDiv = $("<div>").css({
+			position: "absolute",
+			right: "1.8%", bottom: "2.5%",
+			width: "5%", height: "10%"
+		}).prop("title", "Exit").appendTo(htmlbox)[0];
+		var exit_btn = $("<button>").css({
+			backgroundImage: "url(" + this.app().assets.graphics() + "/exit.png",
+			backgroundSize: "100% 100%",
+			width: "100%", height: "100%"
+		}).on("click", () => {
+            this.shutdown();
+            this.scene.stop();
+            this.app().config.menuCallback = () => {};
+            this.app().scene_menu.Start('levels');
+			//menu.start(function() {menu.BK.start("episodes");});
+		}).appendTo(this.exitDiv);
+		
+		this.sounds = {};
+		
+		this.music = this.sound.add("game-music", 1, true);
+		this.music.play();
+        //if (this.startCB !== undefined) {this.startCB(); delete this.startCB;}
     }
 
     update() {
@@ -43,7 +114,7 @@ export class GameScene extends BasicScene {
 
     shutdown() {
         this.speaker.destroy();
-		this.exitDiv.parentNode.removeChild(game.exitDiv);
+		this.exitDiv.parentNode.removeChild(this.exitDiv);
 		this.inputer.Destroy();
 		this.music.destroy();
     }
@@ -55,19 +126,19 @@ export class GameScene extends BasicScene {
         gate.sprite.body.immovable = true;
         gate.sprite.body.setSize(50, 150);
         gate.updateCB = function() {
-            ph.physics.arcade.collide(game.me.sprite, gate.sprite);
+            ph.physics.arcade.collide(this.me.sprite, gate.sprite);
         }
-        game.onUpdate.add(gate.updateCB);
+        this.onUpdate.add(gate.updateCB);
         gate.opened = false;
         gate.close = function() {
             gate.sprite.loadTexture("gate150_closed");
-            game.onUpdate.add(gate.updateCB);
+            this.onUpdate.add(gate.updateCB);
             gate.opened = false;
             gate.sound.play();
         }
         gate.open = function() {
             gate.sprite.loadTexture("gate150_opened");
-            game.onUpdate.remove(gate.updateCB);
+            this.onUpdate.remove(gate.updateCB);
             gate.opened = true;
             gate.sound.play();
         }
@@ -88,17 +159,17 @@ export class GameScene extends BasicScene {
 
     Victory() {
         //var json = JSON.parse(localStorage.data);
-        //if (game.level > json.profiles[boot.profile].episodes[game.episode].levelWon) {
-        //	json.profiles[boot.profile].episodes[game.episode].levelWon = game.level;
+        //if (this.level > json.profiles[boot.profile].episodes[this.episode].levelWon) {
+        //	json.profiles[boot.profile].episodes[this.episode].levelWon = this.level;
         //}
         //localStorage.data = JSON.stringify(json);
-        var episodeData = boot.profileMemoryData.episodes[game.episode];
-        var levelData = episodeData.levels[game.level];
+        var episodeData = boot.profileMemoryData.episodes[this.episode];
+        var levelData = episodeData.levels[this.level];
         levelData.completed = true;
-        levelData.gold = game.goldGained;
+        levelData.gold = this.goldGained;
         // artifacts gained have their flag set to true in memory
-        for (var i=0; i<game.artifactsGained.length; i++) {
-            var artifactName = game.artifactsGained[i];
+        for (var i=0; i<this.artifactsGained.length; i++) {
+            var artifactName = this.artifactsGained[i];
             episodeData.artifacts[artifactName] = true;
         }
         memory.Save();
@@ -107,21 +178,21 @@ export class GameScene extends BasicScene {
     }
 
     defeat() {
-        game.start(game.episode, game.level);
+        this.start(this.episode, this.level);
     }
 
     CreateCoin(room, x, y) {
-        if (Array.isArray(x)) { // game.CreateCoin(room, [{x:, y:}, {x:, y:}])
+        if (Array.isArray(x)) { // this.CreateCoin(room, [{x:, y:}, {x:, y:}])
             var coins = x; // coins = [{x,y}, {x,y}]
-            for (var i=0; i<coins.length; i++) {game.CreateCoin(room, coins[i]);}
-        } else if (typeof x === 'object') { // game.CreateCoin(room, {x:, y:})
+            for (var i=0; i<coins.length; i++) {this.CreateCoin(room, coins[i]);}
+        } else if (typeof x === 'object') { // this.CreateCoin(room, {x:, y:})
             var coin = x;
-            game.CreateCoin(room, coin.x, coin.y);
-        } else { // game.CreateCoin(x, y)
-            var coin = new game.Coin();
+            this.CreateCoin(room, coin.x, coin.y);
+        } else { // this.CreateCoin(x, y)
+            var coin = new this.Coin();
             coin.SetPosition(x, y);
             room.coins.push(coin);
-            game.levelGold += 1;
+            this.levelGold += 1;
             return coin;
         }
     }
@@ -129,18 +200,18 @@ export class GameScene extends BasicScene {
         ph.world.setBounds(0, 0, sizeX, sizeY);
     }
     CreateRoom(x, y) {
-        var room = new game.Room(x, y);
-        game.rooms.push(room);
+        var room = new this.Room(x, y);
+        this.rooms.push(room);
         return room;
     }
     CreateHero(room, x, y, direction) {
-        var hero = new game.HeroUnit();
+        var hero = new this.HeroUnit();
         hero.room = room;
         hero.SetPosition(x, y);
         ph.camera.follow(hero.GetBodySprite());
         //console.log("hero pos", hero.pointSprite.x, hero.pointSprite.y);
         hero.onDeath.add(function() {
-            game.defeat();
+            this.defeat();
         });
         hero.onUpdate.add(function() {
             if (hero.y > Y_TO_DIE) {
@@ -148,19 +219,19 @@ export class GameScene extends BasicScene {
             }
         });
         room.units.push(hero);
-        game.me = hero; // used for input (check if hero is null)
+        this.me = hero; // used for input (check if hero is null)
         return hero;
     }
 
     CreateTile(room, x, y, w, h, texture) {
-        var wall = new game.Wall(x, y, w, h, texture);
+        var wall = new this.Wall(x, y, w, h, texture);
         wall.room = room;
         room.walls.push(wall);
         return wall;
     }
 
     CreateWall(room, x, y, w, h, texture) {
-        var wall = new game.Wall(x, y, w, h, texture);
+        var wall = new this.Wall(x, y, w, h, texture);
         wall.room = room;
         wall.EnableCollider();
         room.walls.push(wall);
@@ -168,3 +239,6 @@ export class GameScene extends BasicScene {
     }
 
 }
+
+GameScene.EVENT_update = 'ev_update';
+GameScene.EVENT_render = 'ev_render';

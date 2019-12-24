@@ -13,6 +13,8 @@ if (true) {
     app.config.menuCallback = () => {
         app.scene_menu.shutdown();
         app.scene_menu.scene.stop();
+        app.SetProfile('Default');
+        app.scene_menu.chosenEpisode = 1;
         app.StartLevel(1, 1);
     };
 }

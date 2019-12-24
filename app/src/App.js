@@ -4,6 +4,8 @@ import {ConfigManager} from './ConfigManager';
 import {AssetsManager} from './AssetsManager';
 import {FlexibleWindow} from './FlexibleWindow';
 
+import var_levels from './scenes/game/levels/levels.js';
+
 import {BasicScene} from './scenes/BasicScene';
 import {BootScene} from './scenes/BootScene';
 import {LoadingScene} from './scenes/LoadingScene';
@@ -99,6 +101,8 @@ export class App {
         });
 
         this.profileMemoryData = null;
+
+        this.levels = var_levels;
 
     }
 

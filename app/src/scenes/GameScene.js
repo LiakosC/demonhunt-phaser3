@@ -1,7 +1,11 @@
 import { BasicScene } from "./BasicScene";
 import { Speaker } from "../Speaker";
 import { GameInput } from "../GameInput";
+import { BaseLevel } from "./game/levels/BaseLevel";
 
+/**
+ * @class GameScene
+ */
 export class GameScene extends BasicScene {
 
     constructor() {
@@ -10,6 +14,11 @@ export class GameScene extends BasicScene {
         this.level = null;
         this.inputer = null;
         this.speaker = null;
+
+        /**
+         * @type {BaseLevel}
+         */
+        this.currentLevel = null;
     }
 
     init() {
@@ -53,7 +62,10 @@ export class GameScene extends BasicScene {
 		this.artifactsGained = []; // names of artifacts gained in level
 
 		//this.lighter = new G2_Phaser_Lighter(ph);
-		
+        
+        this.currentLevel = this.app().levels[this.episode].levels[this.level];
+        this.currentLevel.init();
+        this.currentLevel.goldMax = this.levelGold;
 		//boot.episodes[this.episode].levels[this.level].init();
 		//boot.profileMemoryData.episodes[this.episode].levels[this.level].goldMax = this.levelGold;
         
